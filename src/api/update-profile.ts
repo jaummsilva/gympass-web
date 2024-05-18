@@ -16,7 +16,7 @@ export async function updateProfile({
   const token = nookies.get(null).token
 
   const response = await axiosFn.put(
-    '/user',
+    '/profile',
     {
       name,
       email,

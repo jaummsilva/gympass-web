@@ -36,7 +36,7 @@ export function UserNav({ user }: UserNavProps) {
   }
 
   function handleSettings() {
-    return router.push('/settings')
+    return router.push('/app/settings/profile')
   }
 
   let shortname: string = ''
