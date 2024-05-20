@@ -1,10 +1,11 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { z } from 'zod'
 
 import { fetchGyms, type FetchGymsResponse } from '@/api/fetch-gyms'
+import { Pagination } from '@/components/pagination'
 import { Separator } from '@/components/ui/separator'
 import {
   Table,
@@ -26,39 +27,34 @@ export interface GymTableRowProps {
     phone: string
     latitude: number
     longitude: number
+    totalCheckIns: number
   }
 }
 
 export default function Gym() {
   const searchParams = useSearchParams()
+  const router = useRouter()
 
-  const id = searchParams.get('id')
   const title = searchParams.get('title')
 
-  const page = z.coerce
-    .number()
-    .transform((page) => page - 1)
-    .parse(searchParams.get('page') ?? '1')
+  const page = z.coerce.number().parse(searchParams.get('page') ?? '1')
 
   const { data: result, isLoading: isLoadingGyms } =
     useQuery<FetchGymsResponse>({
-      queryKey: ['gyms', page, id, title],
+      queryKey: ['gyms', page, title],
       queryFn: async () => {
-        const response = await fetchGyms({ id, title, page })
+        const response = await fetchGyms({ title, page })
         return response
       },
-      staleTime: 1000 * 60 * 5,
     })
 
-  // function handlePaginate(page: number) {
-  //   const { query } = router
-  //   const newQuery = { ...query, page: (page + 1).toString() }
+  function handlePaginate(pageIndex: number) {
+    const newSearchParams = new URLSearchParams(searchParams.toString())
+    newSearchParams.set('page', pageIndex.toString())
 
-  //   router.push({
-  //     pathname: router.pathname,
-  //     query: newQuery,
-  //   })
-  // }
+    // Atualiza a URL com os novos parâmetros de pesquisa
+    router.replace(`?${newSearchParams.toString()}`)
+  }
 
   return (
     <div className="space-y-6 p-10 pb-16">
@@ -75,12 +71,18 @@ export default function Gym() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[170px]">Identificador</TableHead>
-                <TableHead className="w-[180px]">Nome</TableHead>
+                <TableHead className="w-[200px]">Nome</TableHead>
                 <TableHead>Descrição</TableHead>
-                <TableHead className="w-[140px]">Telefone</TableHead>
-                <TableHead className="w-[140px]">Latitude</TableHead>
-                <TableHead className="w-[140px]">Longitude</TableHead>
+                <TableHead className="w-[180px]">Telefone</TableHead>
+                <TableHead className="w-[180px]" style={{ textAlign: 'end' }}>
+                  Latitude
+                </TableHead>
+                <TableHead className="w-[180px]" style={{ textAlign: 'end' }}>
+                  Longitude
+                </TableHead>
+                <TableHead className="w-[180px]" style={{ textAlign: 'end' }}>
+                  Total de Check-ins
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody style={{ height: '100%' }}>
@@ -93,13 +95,24 @@ export default function Gym() {
             </TableBody>
           </Table>
         </div>
-        {/* Uncomment and update Pagination component as needed */}
-        {/* <Pagination
+        <Pagination
           onChangePage={handlePaginate}
-          pageIndex={result?.meta.pageIndex ?? 0}
-          perPage={result?.meta.perPage ?? 10}
-          totalCount={result?.meta.totalCount ?? 0}
-        /> */}
+          pageIndex={
+            result && result.meta.pageIndex !== undefined
+              ? result.meta.pageIndex
+              : 1
+          }
+          perPage={
+            result && result.meta.perPage !== undefined
+              ? result.meta.perPage
+              : 10
+          }
+          totalCount={
+            result && result.meta.totalCount !== undefined
+              ? result.meta.totalCount
+              : 0
+          }
+        />
       </div>
     </div>
   )

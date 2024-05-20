@@ -1,21 +1,27 @@
 'use client'
 
+import { Badge } from '@/components/ui/badge'
 import { TableCell, TableRow } from '@/components/ui/table'
 
 import type { GymTableRowProps } from '../page'
 
 export function GymTableRow({ gym }: GymTableRowProps) {
-  console.log(gym)
   return (
     <TableRow>
-      <TableCell>TESTE</TableCell>
-      <TableCell className="font-mono text-xs font-medium">TESTE</TableCell>
-      <TableCell className="text-muted-foreground">TESTE</TableCell>
-      <TableCell>TESTE</TableCell>
-      <TableCell className="font-medium">TESTE</TableCell>
-      <TableCell className="font-medium">TESTE</TableCell>
-      <TableCell>TESTE</TableCell>
-      <TableCell>TESTE</TableCell>
+      <TableCell className="">{gym.title}</TableCell>
+      <TableCell className="">{gym.description ?? ''}</TableCell>
+      <TableCell>{gym.phone}</TableCell>
+      <TableCell className="font-medium" style={{ textAlign: 'end' }}>
+        {gym.latitude}
+      </TableCell>
+      <TableCell className="font-medium" style={{ textAlign: 'end' }}>
+        {gym.longitude}
+      </TableCell>
+      <TableCell className="font-medium" style={{ textAlign: 'end' }}>
+        <Badge variant={'emerald'} className="text-sm font-bold">
+          {gym.totalCheckIns}
+        </Badge>
+      </TableCell>
     </TableRow>
   )
 }

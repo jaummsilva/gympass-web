@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Search } from 'lucide-react'
+import { Search, X } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -20,7 +20,6 @@ export function GymTableFilters() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const id = searchParams.get('id')
   const title = searchParams.get('title')
 
   const {
@@ -32,18 +31,12 @@ export function GymTableFilters() {
     resolver: zodResolver(gymFiltersSchema),
     defaultValues: {
       title: title ?? '',
-      id: id ?? '',
     },
   })
 
   function handleFilter(data: GymFilterSchema) {
     const params = new URLSearchParams(searchParams.toString())
 
-    if (data.id) {
-      params.set('id', data.id)
-    } else {
-      params.delete('id')
-    }
     if (data.title) {
       params.set('title', data.title)
     } else {
@@ -57,9 +50,9 @@ export function GymTableFilters() {
   function handleFilterReset() {
     reset({
       title: '',
-      id: '',
     })
-    router.push('?')
+
+    router.push(`?`)
   }
 
   return (
@@ -68,12 +61,6 @@ export function GymTableFilters() {
       onSubmit={handleSubmit(handleFilter)}
     >
       <span className="text-sm font-semibold">Filtros:</span>
-      <Input
-        id="id"
-        placeholder="ID da academia"
-        className="h-8 w-auto"
-        {...register('id')}
-      />
       <Input
         id="title"
         {...register('title')}
@@ -97,7 +84,7 @@ export function GymTableFilters() {
         size="xs"
         onClick={handleFilterReset}
       >
-        <Search className="mr-2 size-4" />
+        <X className="mr-2 size-4" />
         Remover Filtros
       </Button>
     </form>

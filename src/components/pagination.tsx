@@ -1,3 +1,5 @@
+'use client'
+
 import {
   ChevronLeft,
   ChevronRight,
@@ -29,7 +31,7 @@ export function Pagination({
       </span>
       <div className="flex items-center gap-6 lg:gap-8">
         <div className="text-sm font-medium">
-          Pagina {pageIndex + 1} de {pages}
+          Pagina {pageIndex} de {pages}
         </div>
         <div className="flex items-center gap-2">
           <Button
@@ -38,7 +40,7 @@ export function Pagination({
             variant="outline"
             size="lg"
             className="size-8 p-0"
-            disabled={pageIndex === 0}
+            disabled={pageIndex === 1}
           >
             <ChevronsLeft />
             <span className="sr-only">Primeira página</span>
@@ -49,7 +51,7 @@ export function Pagination({
             size="lg"
             className="size-8 p-0"
             onClick={() => onChangePage(pageIndex - 1)}
-            disabled={pageIndex === 0}
+            disabled={pageIndex === 1}
           >
             <ChevronLeft />
             <span className="sr-only">Página anterior</span>
@@ -60,7 +62,7 @@ export function Pagination({
             size="lg"
             className="size-8 p-0"
             onClick={() => onChangePage(pageIndex + 1)}
-            disabled={pages <= pageIndex + 1}
+            disabled={pages <= pageIndex}
           >
             <ChevronRight />
             <span className="sr-only">Próxima página</span>
@@ -71,7 +73,7 @@ export function Pagination({
             size="lg"
             className="size-8 p-0"
             onClick={() => onChangePage(pages - 1)}
-            disabled={pages <= pageIndex + 1}
+            disabled={pages <= pageIndex}
           >
             <ChevronsRight />
             <span className="sr-only">Última página</span>

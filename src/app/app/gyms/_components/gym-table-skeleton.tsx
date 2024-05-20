@@ -6,19 +6,19 @@ export function GymTableSkeleton() {
     return (
       <TableRow key={i}>
         <TableCell>
-          <Skeleton className="h-4 w-[170px]" />
-        </TableCell>
-        <TableCell>
-          <Skeleton className="h-4 w-[180px]" />
+          <Skeleton className="h-4 w-[200px]" />
         </TableCell>
         <TableCell>
           <Skeleton className="h-4" />
         </TableCell>
         <TableCell>
-          <Skeleton className="h-4 w-[140px]" />
+          <Skeleton className="h-4 w-[180px]" />
         </TableCell>
         <TableCell>
-          <Skeleton className="h-4 w-[140px]" />
+          <Skeleton className="h-4 w-[180px]" />
+        </TableCell>
+        <TableCell>
+          <Skeleton className="h-4 w-[180px]" />
         </TableCell>
         <TableCell>
           <Skeleton className="h-4 w-[140px]" />
