@@ -15,6 +15,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
+import { GymCreateSheet } from './_components/gym-create-sheet'
 import { GymTableFilters } from './_components/gym-table-filters'
 import { GymTableRow } from './_components/gym-table-row'
 import { GymTableSkeleton } from './_components/gym-table-skeleton'
@@ -66,7 +67,13 @@ export default function Gym() {
       </div>
       <Separator />
       <div className="mt-4 space-y-2.5">
-        <GymTableFilters />
+        <div className="flex flex-row justify-between">
+          <GymTableFilters />
+          <div>
+            <GymCreateSheet />
+          </div>
+        </div>
+
         <div className="rounded-md border">
           <Table>
             <TableHeader>
